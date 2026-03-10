@@ -1,5 +1,6 @@
 package com.memberservice.member.service;
 
+import com.memberservice.common.exception.MemberNotFoundException;
 import com.memberservice.member.dto.MemberCreateRequest;
 import com.memberservice.member.dto.MemberResponse;
 import com.memberservice.member.entity.Member;
@@ -30,7 +31,7 @@ public class MemberService {
 
     public MemberResponse getById(Long id) {
         Member member = memberRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Member not found")
+                () -> new MemberNotFoundException(id)
         );
 
         return new MemberResponse(
