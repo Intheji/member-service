@@ -49,7 +49,7 @@ jobs:
 
       # 8. EC2에 SSH 접속해서 최신 이미지로 재배포
       - name: Deploy to EC2
-        uses: appleboy/ssh-action@v1.2.0
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
