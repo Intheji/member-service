@@ -55,12 +55,12 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull ${{ vars.DOCKERHUB_USERNAME }}/member-service:latest
+            sudo docker pull ${{ vars.DOCKERHUB_USERNAME }}/member-service:latest
 
-            docker stop member-service-container || true
-            docker rm member-service-container || true
+            sudo docker stop member-service-container || true
+            sudo docker rm member-service-container || true
 
-            docker run -d \
+            sudo docker run -d \
               --name member-service-container \
               -p 8080:8080 \
               -e SPRING_PROFILES_ACTIVE=prod \
