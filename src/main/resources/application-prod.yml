@@ -1,13 +1,16 @@
 spring:
+  config:
+    import: aws-parameterstore:/member-service/prod/
+
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: ${db-url}
+    username: ${db-username}
+    password: ${db-password}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: false
     properties:
       hibernate:
@@ -17,5 +20,19 @@ cloud:
   aws:
     region:
       static: ${AWS_REGION:ap-northeast-2}
+
     s3:
-      bucket: ${S3_BUCKET_NAME}
+      bucket: ${s3-bucket-name}
+
+management:
+  endpoint:
+    health:
+      show-details: never
+
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    message: ${team-name}

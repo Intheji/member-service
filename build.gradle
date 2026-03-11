@@ -24,6 +24,12 @@ repositories {
     mavenCentral()
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "io.awspring.cloud:spring-cloud-aws-dependencies:4.0.0"
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-h2console'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -31,9 +37,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 
-    implementation platform("software.amazon.awssdk:bom:2.32.18")
-    implementation 'software.amazon.awssdk:s3'
-    implementation 'software.amazon.awssdk:auth'
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3'
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter-parameter-store'
 
     compileOnly 'org.projectlombok:lombok'
 
