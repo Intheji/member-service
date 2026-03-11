@@ -24,9 +24,17 @@ public class Member {
     @Column(nullable = false, length = 4)
     private String mbti;
 
+    @Column
+    private String profileImageKey;
+
     public Member(String name, int age, String mbti) {
         this.name = name;
         this.age = age;
         this.mbti = mbti;
+    }
+
+    // 프로필 이미지 키를 수정하는 도메인 메서드
+    public void updateProfileImageKey(String profileImageKey) {
+        this.profileImageKey = profileImageKey;
     }
 }

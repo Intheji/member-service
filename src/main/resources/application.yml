@@ -1,9 +1,22 @@
 spring:
+  application:
+    name: member-service
   profiles:
     active: local
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 management:
   endpoints:
     web:
       exposure:
         include: health,info
+  info:
+    env:
+      enabled: true
+
+info:
+  team:
+    name: ${TEAM_NAME:unknown}

@@ -2,7 +2,6 @@ package com.memberservice.common.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.micrometer.observation.autoconfigure.ObservationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    // 팀원 조회할 때 해당 id의 팀원이 존재하지 않을 때 예외
     @ExceptionHandler(MemberNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleMemberNotFoundException(
             MemberNotFoundException e,
@@ -31,6 +31,7 @@ public class GlobalExceptionHandler {
 
     }
 
+    // @Valid 검증에 실패했을 때 처리
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidation(
             MethodArgumentNotValidException e,
@@ -55,6 +56,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
+    // 처리하지 못한 모든 예외 공통 처리
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(
             Exception e,
@@ -70,5 +72,41 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }
+
+    // 프로필 이미지가 존재하지 않을 때 처리
+    @ExceptionHandler(ProfileImageNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleProfileImageNotFound(
+            ProfileImageNotFoundException e,
+            HttpServletRequest request
+    ) {
+        log.error("프로필 이미지 조회 실패", e);
+
+        ErrorResponse response = ErrorResponse.of(
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                e.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    // 잘못된 요청값으로 발생한 예외 처리
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgument(
+            IllegalArgumentException e,
+            HttpServletRequest request
+    ) {
+        log.error("잘못된 요청", e);
+
+        ErrorResponse response = ErrorResponse.of(
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                e.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.badRequest().body(response);
     }
 }

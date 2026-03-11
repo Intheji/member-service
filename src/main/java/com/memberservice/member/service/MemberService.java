@@ -16,6 +16,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    // 팀원 정보를 저장
     @Transactional
     public MemberResponse create(MemberCreateRequest request) {
         Member member = new Member(request.name(), request.age(), request.mbti());
@@ -29,6 +30,7 @@ public class MemberService {
         );
     }
 
+    // 팀원 단건 조회 - 조회 결과가 없으면 예외 발생
     public MemberResponse getById(Long id) {
         Member member = memberRepository.findById(id).orElseThrow(
                 () -> new MemberNotFoundException(id)
