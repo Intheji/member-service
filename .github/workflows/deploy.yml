@@ -48,7 +48,7 @@ jobs:
         with:
           context: .
           push: true
-          platforms: linux/arm64
+          platforms: linux/amd64,linux/arm64
           tags: ${{ vars.DOCKERHUB_USERNAME }}/member-service:latest
 
       # 8. EC2에 SSH 접속해서 최신 이미지로 재배포
