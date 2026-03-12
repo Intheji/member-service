@@ -19,4 +19,4 @@ management:
 
 info:
   team:
-    name: ${TEAM_NAME:unknown}
+    name: ${team-name:unknown}
